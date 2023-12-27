@@ -1,0 +1,16 @@
+E:\19ct1\c#\CHAT\server\bin\Debug\net7.0-windows\server.exe
+E:\19ct1\c#\CHAT\server\bin\Debug\net7.0-windows\server.deps.json
+E:\19ct1\c#\CHAT\server\bin\Debug\net7.0-windows\server.runtimeconfig.json
+E:\19ct1\c#\CHAT\server\bin\Debug\net7.0-windows\server.dll
+E:\19ct1\c#\CHAT\server\bin\Debug\net7.0-windows\server.pdb
+E:\19ct1\c#\CHAT\server\obj\Debug\net7.0-windows\server.FrmServer.resources
+E:\19ct1\c#\CHAT\server\obj\Debug\net7.0-windows\server.csproj.GenerateResource.cache
+E:\19ct1\c#\CHAT\server\obj\Debug\net7.0-windows\server.GeneratedMSBuildEditorConfig.editorconfig
+E:\19ct1\c#\CHAT\server\obj\Debug\net7.0-windows\server.AssemblyInfoInputs.cache
+E:\19ct1\c#\CHAT\server\obj\Debug\net7.0-windows\server.AssemblyInfo.cs
+E:\19ct1\c#\CHAT\server\obj\Debug\net7.0-windows\server.csproj.CoreCompileInputs.cache
+E:\19ct1\c#\CHAT\server\obj\Debug\net7.0-windows\server.dll
+E:\19ct1\c#\CHAT\server\obj\Debug\net7.0-windows\refint\server.dll
+E:\19ct1\c#\CHAT\server\obj\Debug\net7.0-windows\server.pdb
+E:\19ct1\c#\CHAT\server\obj\Debug\net7.0-windows\server.genruntimeconfig.cache
+E:\19ct1\c#\CHAT\server\obj\Debug\net7.0-windows\ref\server.dll

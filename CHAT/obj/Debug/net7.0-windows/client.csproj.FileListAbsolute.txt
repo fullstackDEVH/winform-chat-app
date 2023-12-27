@@ -1,0 +1,16 @@
+E:\19ct1\c#\CHAT\CHAT\obj\Debug\net7.0-windows\CHAT.frmClient.resources
+E:\19ct1\c#\CHAT\CHAT\obj\Debug\net7.0-windows\client.csproj.GenerateResource.cache
+E:\19ct1\c#\CHAT\CHAT\obj\Debug\net7.0-windows\client.GeneratedMSBuildEditorConfig.editorconfig
+E:\19ct1\c#\CHAT\CHAT\obj\Debug\net7.0-windows\client.AssemblyInfoInputs.cache
+E:\19ct1\c#\CHAT\CHAT\obj\Debug\net7.0-windows\client.AssemblyInfo.cs
+E:\19ct1\c#\CHAT\CHAT\obj\Debug\net7.0-windows\client.csproj.CoreCompileInputs.cache
+E:\19ct1\c#\CHAT\CHAT\bin\Debug\net7.0-windows\client.exe
+E:\19ct1\c#\CHAT\CHAT\bin\Debug\net7.0-windows\client.deps.json
+E:\19ct1\c#\CHAT\CHAT\bin\Debug\net7.0-windows\client.runtimeconfig.json
+E:\19ct1\c#\CHAT\CHAT\bin\Debug\net7.0-windows\client.dll
+E:\19ct1\c#\CHAT\CHAT\bin\Debug\net7.0-windows\client.pdb
+E:\19ct1\c#\CHAT\CHAT\obj\Debug\net7.0-windows\client.dll
+E:\19ct1\c#\CHAT\CHAT\obj\Debug\net7.0-windows\refint\client.dll
+E:\19ct1\c#\CHAT\CHAT\obj\Debug\net7.0-windows\client.pdb
+E:\19ct1\c#\CHAT\CHAT\obj\Debug\net7.0-windows\client.genruntimeconfig.cache
+E:\19ct1\c#\CHAT\CHAT\obj\Debug\net7.0-windows\ref\client.dll
