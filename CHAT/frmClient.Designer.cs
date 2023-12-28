@@ -69,6 +69,7 @@
             // 
             richTextBox1.Location = new Point(115, 66);
             richTextBox1.Name = "richTextBox1";
+            richTextBox1.ReadOnly = true;
             richTextBox1.Size = new Size(651, 291);
             richTextBox1.TabIndex = 16;
             richTextBox1.Text = "";
@@ -125,6 +126,7 @@
             Name = "frmClient";
             Text = "Client";
             FormClosed += frmClient_FormClosed;
+            Load += frmClient_Load;
             ResumeLayout(false);
             PerformLayout();
         }

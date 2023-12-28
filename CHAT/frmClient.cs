@@ -32,6 +32,7 @@ namespace CHAT
         {
             InitializeComponent();
             MyConnect();
+
         }
 
         private void receiverMessage()
@@ -44,7 +45,8 @@ namespace CHAT
                     int bytesRead = client.Receive(data);
 
                     string header = Encoding.UTF8.GetString(data.Take(5).ToArray());
-                    Debug.WriteLine("header : ", header);
+                    Debug.WriteLine("header : " + header);
+
                     if (header == "IMAGE")
                     {
                         // Process image data
@@ -57,7 +59,7 @@ namespace CHAT
                             DisplayImageInRichTextBox(imageData);
                         }
                     }
-                    else
+                    else if ((header == "TEXTT"))
                     {
                         // Display text messages in the RichTextBox
                         string message = Encoding.UTF8.GetString(data, 0, bytesRead);
@@ -77,11 +79,23 @@ namespace CHAT
             {
                 if (imageData != null && imageData.Length > 0)
                 {
-                    // Copy the image data to the clipboard
-                    Clipboard.SetData(DataFormats.Bitmap, byteArrayToImage(imageData));
+                    Debug.WriteLine("display");
+                    bool originalReadOnly = richTextBox1.ReadOnly;
 
-                    // Paste the image from the clipboard into the RichTextBox
+                    // Temporarily set ReadOnly to false to enable editing
+                    richTextBox1.ReadOnly = false;
+
+                    // Perform the paste operation
+                    Clipboard.SetData(DataFormats.Bitmap, byteArrayToImage(imageData));
+                    richTextBox1.SelectionAlignment = HorizontalAlignment.Left;
                     richTextBox1.Paste();
+
+                    // Restore the original ReadOnly status
+                    richTextBox1.ReadOnly = originalReadOnly;
+                  //  richTextBox1.AppendText(Environment.NewLine);
+
+                    richTextBox1.ReadOnly = originalReadOnly;
+                    addMessageRich("", "receiver");
                 }
                 else
                 {
@@ -133,6 +147,8 @@ namespace CHAT
             catch (InvalidOperationException exc)
             {
                 MessageBox.Show(exc.ToString());
+                MessageBox.Show("Không có server để kết nối, hãy thử lại server đã bật !!!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
             catch (Exception ex)
             {
@@ -167,7 +183,11 @@ namespace CHAT
         {
             if (txt_client_messaage.Text != string.Empty)
             {
-                client.Send(enCode(txt_client_messaage.Text));
+                byte[] textHeader = Encoding.UTF8.GetBytes("TEXTT");
+                byte[] textMessageData = Encoding.UTF8.GetBytes(txt_client_messaage.Text);
+                byte[] textData = textHeader.Concat(textMessageData).ToArray();
+
+                client.Send(textData);
             }
             addMessageRich(txt_client_messaage.Text);
             txt_client_messaage.Clear();
@@ -180,6 +200,11 @@ namespace CHAT
         private byte[] enCode(string data)
         {
             return Encoding.Unicode.GetBytes(data);
+        }
+
+        private void frmClient_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

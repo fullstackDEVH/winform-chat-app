@@ -48,29 +48,44 @@ namespace server
                 while (true)
                 {
                     byte[] data = new byte[1024 * 5000];
-                    client.Receive(data);
-                    string message = (string)deCode(data);
-                    string[] strCheck = deCode(data).Split(' ');
-                    Console.WriteLine(strCheck[0]);
-                    foreach (Socket item in clientSockets)
+                    int bytesRead = client.Receive(data);
+
+                    string header = Encoding.UTF8.GetString(data.Take(5).ToArray());
+                    Debug.WriteLine("header : " + header);
+
+                    if (header == "IMAGE")
                     {
-                        if (item != client)
+                        // Process image data
+                        if (bytesRead > 5)
                         {
-                            if (message.StartsWith("IMAGE"))
+                            byte[] imageData = new byte[bytesRead - 5];
+                            Array.Copy(data, 5, imageData, 0, bytesRead - 5);
+
+                            // Handle image data here (e.g., display in PictureBox)
+                            DisplayImageInRichTextBox(imageData);
+                        }
+                    }
+                    else if (header == "TEXTT" && bytesRead > 5)
+                    {
+                        // Skip the header and extract the text message
+                        string message = Encoding.UTF8.GetString(data, 0, bytesRead);
+                        foreach (Socket item in clientSockets)
+                        {
+                            if (item != client)
                             {
-                                string base64Image = message.Substring("IMAGE ".Length);
-                                string imageDataMessage = $"IMAGE {base64Image}";
-                                item.Send(enCode(imageDataMessage));
-                            }
-                            else
-                            {
-                                item.Send(data);
+                                if (header == "TEXTT")
+                                {
+                                    // Send the text data to other clients
+                                    byte[] textHeader = Encoding.UTF8.GetBytes("TEXTT");
+                                    byte[] textMessageData = Encoding.UTF8.GetBytes(message);
+                                    byte[] textData = textHeader.Concat(textMessageData).ToArray();
+                                    item.Send(textData);
+                                }
                             }
                         }
 
+                        addMessageRich(message, "receiver");
                     }
-
-                    addMessageRich(message, "receiver");
                 }
             }
             catch (InvalidOperationException exc)
@@ -114,7 +129,7 @@ namespace server
             {
                 richTextBox1.SelectionAlignment = HorizontalAlignment.Left;
             }
-            Debug.WriteLine($"{message}\n{status} lúc {timestamp}\n\n");
+
             richTextBox1.AppendText($"{message}\n{status} lúc {timestamp}\n\n");
         }
 
@@ -144,17 +159,17 @@ namespace server
                         list_box.Items.Add(client.RemoteEndPoint.ToString());
 
 
-                        Console.WriteLine("clientSockets : " + clientSockets);
-                        foreach (Socket item in clientSockets)
-                        {
-                            strListClient += item.LocalEndPoint.ToString() + "&";
-                        }
-                        foreach (Socket item in clientSockets)
-                        {
-                            item.Send(enCode(strListClient + ";"));
-                            Console.WriteLine(strListClient + ";");
-                        }
-
+                        /* Console.WriteLine("clientSockets : " + clientSockets);
+                         foreach (Socket item in clientSockets)
+                         {
+                             strListClient += item.LocalEndPoint.ToString() + "&";
+                         }
+                         foreach (Socket item in clientSockets)
+                         {
+                             item.Send(enCode(strListClient + ";"));
+                             Console.WriteLine(strListClient + ";");
+                         }
+                        */
                         Thread threadReceive = new Thread(receiverMessage);
                         threadReceive.SetApartmentState(ApartmentState.STA);
                         threadReceive.IsBackground = true;
@@ -188,11 +203,7 @@ namespace server
         {
 
         }
-        private string ImageToBase64(string imagePath)
-        {
-            byte[] imageBytes = File.ReadAllBytes(imagePath);
-            return Convert.ToBase64String(imageBytes);
-        }
+
 
         private void sendImages()
         {
@@ -233,11 +244,17 @@ namespace server
             {
                 if (imageData != null && imageData.Length > 0)
                 {
-                    // Copy the image data to the clipboard
-                    Clipboard.SetData(DataFormats.Bitmap, byteArrayToImage(imageData));
+                    bool originalReadOnly = richTextBox1.ReadOnly;
 
-                    // Paste the image from the clipboard into the RichTextBox
+                    richTextBox1.ReadOnly = false;
+
+                    Clipboard.SetData(DataFormats.Bitmap, byteArrayToImage(imageData));
+                    richTextBox1.SelectionAlignment = HorizontalAlignment.Left;
                     richTextBox1.Paste();
+                   // richTextBox1.AppendText(Environment.NewLine);
+
+                    richTextBox1.ReadOnly = originalReadOnly;
+                    addMessageRich("", "receiver");
                 }
                 else
                 {
@@ -281,7 +298,7 @@ namespace server
             {
                 if (txt_client_messaage.Text != string.Empty)
                 {
-                    byte[] textData = Encoding.UTF8.GetBytes("TEXT" + txt_client_messaage.Text);
+                    byte[] textData = Encoding.UTF8.GetBytes("TEXTT" + txt_client_messaage.Text);
                     socket.Send(textData);
                 }
             }
